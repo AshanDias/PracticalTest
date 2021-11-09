@@ -22,6 +22,14 @@ namespace Practical_Test.Controllers
         {
             return View();
         }
+        
+        [Route("Create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
 
         public IActionResult Privacy()
         {
