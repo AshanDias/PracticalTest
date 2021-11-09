@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Practical_Test.Interfaces;
 using Practical_Test.Models;
+using Practical_Test.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,8 @@ namespace Practical_Test
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString
                                                                ("DefaultConnection"), serverVersion));
+
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +61,11 @@ namespace Practical_Test
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                DbSeed.DbSeed.Seed(serviceScope);
+            }
         }
     }
 }

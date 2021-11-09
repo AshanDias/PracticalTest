@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ProductViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -34,33 +36,38 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select class="form-control">
-                                        <option value="value">text</option>
-                                        <option value="value">text</option>
-                                        <option value="value">text</option>
-                                    </select>
+                <form asp-action="Filter" asp-controller="Home" method="post">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row">
+                                   
+                                        <select class="form-control" asp-for="ProductTypeId">
+                                            <option value="0">All</option>
+                                            @foreach (var item in Model.ProductType)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                  
+                                    
                                 </div>
-                                <div class="col-md-8">
-                                    <input type="email" class="form-control"  id="exampleInputEmail1" />
-                                </div>
+
+
+
                             </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" asp-for="SearchText" />
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
 
-
-
-                        </div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-primary">
-                                Search
-                            </button>
-
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="col-md-4">
 
 
@@ -74,87 +81,26 @@
                             #
                         </th>
                         <th>
-                            Product
+                            Product Name
                         </th>
                         <th>
-                            Payment Taken
+                            Product Type
                         </th>
                         <th>
-                            Status
+                            Description
                         </th>
                     </tr>
                 </thead>
                 <tbody>
+                  @foreach (var item in Model.Product)
+                  {
                     <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            01/04/2012
-                        </td>
-                        <td>
-                            Default
-                        </td>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.ProductType.Name</td>
+                        <td>@item.Description</td>
                     </tr>
-                    <tr class="table-active">
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            01/04/2012
-                        </td>
-                        <td>
-                            Approved
-                        </td>
-                    </tr>
-                    <tr class="table-success">
-                        <td>
-                            2
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            02/04/2012
-                        </td>
-                        <td>
-                            Declined
-                        </td>
-                    </tr>
-                    <tr class="table-warning">
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            03/04/2012
-                        </td>
-                        <td>
-                            Pending
-                        </td>
-                    </tr>
-                    <tr class="table-danger">
-                        <td>
-                            4
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            04/04/2012
-                        </td>
-                        <td>
-                            Call in to confirm
-                        </td>
-                    </tr>
+                  }
                 </tbody>
             </table>
             <nav>
